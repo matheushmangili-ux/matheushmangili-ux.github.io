@@ -159,7 +159,9 @@ body{margin:0;background:var(--bg);overflow:hidden}
 <script>
 (function () {
   'use strict';
-  var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnmNn_VTsq6_AsfQO2hhuQdUXYQe2OlECv--D1Tv8gmBVs734nafej4iS6zgXxySrQXVjDQckBQcJ6/pub?output=csv';
+  /* gid cravado na aba "Plano de Ação" (a viva) — sem ele, o CSV entrega
+     "a primeira aba publicada" e reordenar abas quebraria o painel */
+  var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnmNn_VTsq6_AsfQO2hhuQdUXYQe2OlECv--D1Tv8gmBVs734nafej4iS6zgXxySrQXVjDQckBQcJ6/pub?gid=1378851798&single=true&output=csv';
   var DAY = 86400000;
   var PAGE_SIZE = 8;
   var ROTATE_MS = 12000;
