@@ -194,6 +194,29 @@
     line-height: .98;
     text-transform: uppercase;
   }
+  .app-icon {
+    grid-column: 11 / 13;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgb(255 255 255 / .04);
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -.04em;
+  }
+  .case:nth-child(even) .app-icon { grid-column: 1 / 3; justify-self: start; }
+  .case.lime .app-icon {
+    border-color: rgb(19 21 3 / .35);
+    background: rgb(19 21 3 / .07);
+    color: var(--accent-ink);
+  }
   .case .desc {
     grid-column: 7 / 13;
     grid-row: 3;
@@ -240,6 +263,20 @@
     gap: 2rem;
   }
   .duo > div { border-top: 1px solid var(--line); padding-top: 1.3rem; }
+  .duo .mini-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgb(255 255 255 / .04);
+    font-weight: 800;
+    font-size: .95rem;
+    letter-spacing: -.04em;
+    margin-bottom: .9rem;
+  }
   .duo h4 { font-size: 1.35rem; font-weight: 650; letter-spacing: -.02em; margin-bottom: .4rem; }
   .duo p { color: var(--muted); font-size: .95rem; max-width: 40ch; }
 
@@ -343,6 +380,7 @@
       box-shadow: none;
     }
     .case h3, .case:nth-child(even) h3 { text-align: left; font-size: 2rem; }
+    .app-icon { width: 52px; height: 52px; border-radius: 14px; font-size: 1.1rem; }
     .case .desc { max-width: none; }
     .case .tags, .case:nth-child(even) .tags { justify-content: flex-start; margin-top: .3rem; }
     .case .duo { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -391,6 +429,7 @@
       <div class="cases">
 
         <article class="case lime" style="--i:0">
+          <span class="app-icon" aria-hidden="true">CA</span>
           <h3>Compra.ai</h3>
           <div class="tags">
             <span class="tag">Next.js</span><span class="tag">Supabase</span><span class="tag">IA</span>
@@ -400,6 +439,7 @@
         </article>
 
         <article class="case" style="--i:1">
+          <span class="app-icon" aria-hidden="true">LV</span>
           <h3>Lista da Vez</h3>
           <div class="tags">
             <span class="tag">React</span><span class="tag">Supabase</span><span class="tag">Tray</span>
@@ -409,6 +449,7 @@
         </article>
 
         <article class="case" style="--i:2">
+          <span class="app-icon" aria-hidden="true">CC</span>
           <h3>Central de Crédito</h3>
           <div class="tags">
             <span class="tag">Next.js</span>
@@ -418,6 +459,7 @@
         </article>
 
         <article class="case" style="--i:3">
+          <span class="app-icon" aria-hidden="true">MV</span>
           <h3>Minha Vez</h3>
           <div class="tags">
             <span class="tag">SaaS</span><span class="tag">Em produção</span>
@@ -427,6 +469,7 @@
         </article>
 
         <article class="case" style="--i:4">
+          <span class="app-icon" aria-hidden="true">CN</span>
           <h3>Consulta CNPJ em lote</h3>
           <div class="tags">
             <span class="tag">Next.js</span>
@@ -439,10 +482,12 @@
           <h3>E também</h3>
           <div class="duo">
             <div>
+              <span class="mini-icon" aria-hidden="true">HB</span>
               <h4>Hub interno</h4>
               <p>Portal que reúne os aplicativos internos da operação em um só lugar, com acesso autenticado.</p>
             </div>
             <div>
+              <span class="mini-icon" aria-hidden="true">AS</span>
               <h4>Agenda de Sala</h4>
               <p>Agendamento de sala de reunião com reserva de horários à prova de conflito, garantida pelo banco.</p>
             </div>
