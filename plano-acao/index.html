@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>TXC · Plano de Ação — Diretoria</title>
+<style>
+@font-face{font-family:'Geist';src:url('../fonts/Geist-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Geist Mono';src:url('../fonts/GeistMono-Variable.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{
+  --bg:#0C1512; --panel:#121F1A; --line:#24352E; --text:#EEF3F0; --muted:#93A8A0;
+  --brand:#1D544A; --brand-hi:#57A18F; --red:#F2695C; --amber:#E8B04B; --blocked:#7EA7CE;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);overflow:hidden}
+#stage{position:absolute;top:50%;left:50%;width:1920px;height:1080px;transform-origin:50% 50%;
+  background:var(--bg);color:var(--text);font-family:'Geist',system-ui,'Segoe UI',Arial,sans-serif;
+  padding:48px;display:flex;flex-direction:column}
+.mono{font-family:'Geist Mono',Consolas,monospace}
+
+/* ---------- header ---------- */
+.hdr{height:92px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex:0 0 auto}
+.brand{display:flex;align-items:center;min-width:0}
+.logo{height:80px;width:auto;color:var(--text);display:block}
+.brand-div{width:1px;height:64px;background:var(--line);margin:0 28px}
+.title h1{font-size:40px;font-weight:650;margin:0;letter-spacing:-.01em;line-height:1.1}
+.title .sub{font-size:24px;color:var(--muted);margin-top:4px}
+.hright{text-align:right}
+.clock{font-size:46px;font-weight:600;line-height:1}
+.datestale{font-size:24px;color:var(--muted);margin-top:6px}
+#stale.warn{color:var(--amber)}
+#stale.bad{color:var(--red)}
+
+/* ---------- KPIs ---------- */
+.kpis{height:144px;display:flex;margin-bottom:20px;flex:0 0 auto}
+.kpi{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 26px;margin-right:16px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.kpi:last-child{margin-right:0}
+.kpi-num{font-size:84px;line-height:1;font-weight:700;font-family:'Geist Mono',Consolas,monospace}
+.kpi-of{font-size:26px;color:var(--muted);margin-left:12px;font-family:'Geist',system-ui,sans-serif;font-weight:500}
+.kpi-label{font-size:23px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:8px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-red{color:var(--red)} .c-amber{color:var(--amber)} .c-blocked{color:var(--blocked)} .c-ok{color:var(--brand-hi)}
+.c-zero{color:var(--muted)}
+
+/* ---------- main ---------- */
+.main{flex:1;display:flex;min-height:0;margin-bottom:16px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 28px}
+.left{flex:62;margin-right:20px;display:flex;flex-direction:column;min-width:0}
+.rightcol{flex:38;display:flex;flex-direction:column;min-width:0}
+#p-blocked{margin-bottom:20px;flex:0 0 auto;overflow:hidden}
+#p-resp{flex:1;min-height:0;overflow:hidden}
+.sect{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex:0 0 auto}
+.sect h2{font-size:24px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+.sect .cnt{font-size:22px;color:var(--muted)}
+
+#radar{flex:1;min-height:0;overflow:hidden;transition:opacity .25s}
+.row{display:flex;align-items:center;height:71px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:none}
+.badge{flex:0 0 176px;font-size:25px;font-weight:600;border-radius:8px;padding:9px 4px;text-align:center;margin-right:26px;
+  white-space:nowrap;overflow:hidden}
+.b-late{color:var(--red);background:rgba(242,105,92,.13)}
+.b-soon{color:var(--amber);background:rgba(232,176,75,.13)}
+.b-date{color:var(--muted);background:rgba(147,168,160,.10);font-family:'Geist Mono',Consolas,monospace;font-weight:500}
+.b-raw{color:var(--muted);font-style:italic;border:1px dashed var(--line);font-weight:500;font-size:21px;padding:8px 6px}
+.rmain{min-width:0;flex:1}
+.racao{font-size:31px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmeta{font-size:23px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmeta b{color:#C7D6D0;font-weight:600}
+
+.bitem{padding:6px 0;border-bottom:1px solid var(--line)}
+.bitem:last-child{border-bottom:none}
+.bacao{font-size:25px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bmeta{font-size:21px;line-height:1.2;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bmeta b{color:#C7D6D0;font-weight:600}
+.bmeta .late-t{color:var(--red)}
+.bmore{font-size:21px;color:var(--muted);padding-top:6px}
+
+.rrow{display:flex;align-items:center;height:31px}
+.rname{flex:1;font-size:23px;font-weight:600;color:#C7D6D0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rname.tbd{color:var(--muted);font-style:italic;font-weight:500}
+.rlate{font-size:22px;color:var(--red);margin-left:16px;white-space:nowrap}
+.ropen{flex:0 0 150px;text-align:right;font-size:22px;color:var(--muted);white-space:nowrap}
+
+.empty{font-size:25px;color:var(--muted);padding:20px 0}
+
+/* ---------- footer ---------- */
+.ftr{height:40px;display:flex;justify-content:space-between;align-items:center;font-size:22px;color:var(--muted);flex:0 0 auto}
+.dots span{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--line);margin-left:9px}
+.dots span.on{background:var(--muted)}
+
+#offline{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--bg);display:none;
+  align-items:center;justify-content:center;flex-direction:column;text-align:center}
+#offline .t1{font-size:44px;font-weight:650}
+#offline .t2{font-size:26px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="hdr">
+    <div class="brand">
+      <svg class="logo" aria-label="Texas Center" xmlns="http://www.w3.org/2000/svg" viewBox="290.48 200.46 261 194.75" fill="currentColor">
+<path fill-rule="nonzero" d="M323.05 306.05C322.46 305.94 321.97 305.72 321.57 305.38C321.17 305.04 320.8 304.67 320.45 304.27C320.11 303.87 319.75 303.48 319.38 303.11C319.01 302.74 318.53 302.46 317.95 302.26L299.86 296.07C300.32 296.28 300.7 296.65 301.01 297.2C301.31 297.74 301.52 298.33 301.63 298.98C301.75 299.62 301.76 300.25 301.68 300.88C301.6 301.5 301.41 302 301.13 302.38C300.87 302.31 300.43 302.18 299.82 301.99C299.21 301.79 298.55 301.59 297.85 301.36C297.15 301.14 296.5 300.92 295.9 300.72C295.29 300.52 294.86 300.37 294.61 300.27L292.67 299.53C292.62 299.51 292.57 299.44 292.53 299.33C292.49 299.21 292.48 299.13 292.5 299.08L299.68 280.3C299.7 280.25 299.77 280.2 299.9 280.17C300.03 280.13 300.17 280.11 300.31 280.11L300.84 280.06L307.86 282.74C308.26 282.89 308.46 283.12 308.45 283.44C308.45 283.75 308.32 284.01 308.06 284.23C307.96 284.36 307.76 284.55 307.48 284.8C307.2 285.05 306.91 285.31 306.61 285.58C306.31 285.85 306.02 286.1 305.76 286.34C305.49 286.58 305.32 286.75 305.23 286.83C305.11 286.92 304.88 286.95 304.56 286.91C304.23 286.87 303.92 286.86 303.63 286.86C303.35 286.86 303.13 286.92 302.97 287.03C302.81 287.14 302.83 287.41 303.01 287.82L318.62 293.79C319.67 294.39 320.63 294.74 321.49 294.84C322.35 294.94 323.14 294.97 323.86 294.91C324.58 294.86 325.24 294.83 325.83 294.81C326.42 294.79 326.98 294.97 327.52 295.35L323.51 305.84C323.49 305.89 323.42 305.95 323.3 306C323.18 306.05 323.1 306.07 323.05 306.05M328.52 287.6C328.31 287.15 328.06 286.67 327.78 286.18C327.5 285.69 327.2 285.23 326.88 284.79C326.56 284.36 326.21 284.02 325.83 283.77L316.99 277.93C316.5 277.65 315.84 277.26 314.99 276.78C314.14 276.3 313.31 275.83 312.51 275.36C311.7 274.89 310.97 274.48 310.32 274.13C309.67 273.79 309.31 273.6 309.23 273.58L304.31 272.39C304.12 272.34 304.01 272.24 303.96 272.12C303.92 271.99 303.91 271.86 303.94 271.72L305.24 269.75C305.49 269.37 305.88 268.79 306.41 268.01C306.94 267.23 307.54 266.35 308.21 265.36C308.87 264.38 309.57 263.35 310.31 262.28C311.06 261.2 311.77 260.18 312.44 259.2C313.11 258.23 313.72 257.36 314.26 256.59C314.79 255.83 315.18 255.26 315.44 254.88L321.14 258.64C321.25 258.72 321.3 258.8 321.28 258.9C321.26 259 321.23 259.11 321.19 259.22C321.14 259.34 321.09 259.43 321.03 259.5C320.97 259.58 320.93 259.62 320.91 259.64C319.33 260.26 317.97 261.21 316.84 262.51C315.71 263.81 314.83 265.21 314.19 266.7L318.86 270.16C319.39 269.75 319.72 269.26 319.84 268.71C319.97 268.15 320.05 267.59 320.07 267.01C320.1 266.44 320.16 265.87 320.26 265.32C320.36 264.76 320.61 264.26 321.02 263.83L328.96 269.07C329.08 269.15 329.12 269.28 329.09 269.47C329.06 269.66 328.99 269.78 328.89 269.84C328.85 269.85 328.61 269.97 328.17 270.2C327.73 270.44 327.23 270.73 326.68 271.09C326.12 271.44 325.6 271.81 325.1 272.2C324.61 272.59 324.28 272.95 324.14 273.26C325.06 274 326.1 274.8 327.25 275.66C328.41 276.52 329.5 277.25 330.53 277.87C331.71 276.63 332.68 275.22 333.47 273.65C334.25 272.07 334.61 270.41 334.56 268.65C334.55 268.32 334.69 268.14 334.97 268.1C335.25 268.06 335.48 268.1 335.66 268.22L341.06 271.79L341.19 272.25C339.77 274.54 338.41 276.76 337.09 278.89C336.55 279.81 335.98 280.75 335.38 281.71C334.77 282.67 334.19 283.61 333.63 284.53C333.07 285.46 332.54 286.34 332.04 287.17C331.53 288 331.09 288.74 330.7 289.38L330.5 289.68L329.07 288.73C328.91 288.44 328.73 288.06 328.52 287.6M351.32 259.41C351.18 259.23 351.04 259.03 350.89 258.81C350.73 258.58 350.59 258.37 350.45 258.17C350.32 257.97 350.23 257.85 350.2 257.81L349.73 257.31L344.29 255.29L345.73 261.05C345.83 261.11 346 261.22 346.27 261.37C346.54 261.52 346.83 261.7 347.15 261.92C347.46 262.14 347.78 262.38 348.1 262.64C348.42 262.91 348.68 263.16 348.89 263.41C349.1 263.65 349.23 263.87 349.27 264.07C349.31 264.27 349.21 264.42 348.98 264.53C347.85 265.66 346.66 266.79 345.4 267.93C344.15 269.06 342.87 270.1 341.55 271.04L341.31 270.77L338.05 253.3L337.83 253.06C337.79 253.03 337.56 252.93 337.13 252.79C336.7 252.64 336.15 252.46 335.49 252.24C334.83 252.02 334.09 251.78 333.28 251.51C332.47 251.25 331.66 250.99 330.83 250.74C330.01 250.48 329.23 250.25 328.48 250.03C327.74 249.82 327.1 249.65 326.58 249.52C326.37 249.49 326.01 249.43 325.49 249.33C324.98 249.23 324.43 249.12 323.83 249.02C323.25 248.91 322.69 248.82 322.16 248.75C321.64 248.68 321.28 248.64 321.09 248.63C321.07 248.61 321.02 248.56 320.93 248.48C320.83 248.4 320.75 248.32 320.68 248.22C320.61 248.12 320.56 248.02 320.53 247.92C320.51 247.81 320.54 247.72 320.61 247.65L328.85 239.95L329.3 239.97C329.38 239.97 329.61 240.19 330.01 240.64C330.41 241.09 330.89 241.6 331.45 242.17C332 242.75 332.61 243.29 333.27 243.8C333.93 244.32 334.57 244.63 335.19 244.75C335.16 244.44 335.04 244.07 334.81 243.63C334.58 243.19 334.3 242.72 333.98 242.22C333.65 241.72 333.31 241.22 332.94 240.72C332.57 240.23 332.23 239.79 331.94 239.39C331.64 238.99 331.4 238.66 331.23 238.38C331.07 238.1 331.02 237.92 331.1 237.85L338.08 231.32C338.21 231.2 338.35 231.18 338.49 231.27C338.63 231.36 338.75 231.49 338.86 231.66C338.96 231.83 339.05 232.02 339.12 232.21C339.19 232.4 339.23 232.52 339.25 232.58C339.26 232.67 339.29 232.94 339.31 233.37C339.33 233.81 339.36 234.27 339.39 234.75C339.42 235.23 339.45 235.69 339.48 236.14C339.52 236.58 339.54 236.85 339.56 236.94C339.68 237.7 339.85 238.66 340.07 239.8C340.28 240.95 340.5 242.07 340.72 243.16C340.94 244.26 341.14 245.19 341.32 245.97C341.5 246.75 341.61 247.14 341.65 247.14L354.51 251.42L360.04 251.83C360.55 251.87 360.86 252.02 360.97 252.3C361.09 252.58 361.09 252.91 360.98 253.3L354.24 259.61C354.18 259.67 354.09 259.77 353.96 259.93C353.83 260.08 353.7 260.25 353.57 260.42C353.45 260.6 353.33 260.76 353.22 260.92C353.11 261.08 353.04 261.19 352.99 261.27L351.58 259.75C351.54 259.71 351.45 259.6 351.32 259.41M364.53 237.96L367.23 236.48L366.9 235.88C366.78 235.77 366.55 235.55 366.21 235.21C365.88 234.88 365.52 234.53 365.15 234.15C364.78 233.78 364.43 233.43 364.11 233.09C363.78 232.75 363.55 232.51 363.41 232.37L363.27 232.86C363.41 233.55 363.55 234.19 363.69 234.78C363.81 235.32 363.93 235.86 364.05 236.38C364.17 236.91 364.28 237.34 364.38 237.68ZZM360.74 252.88C360.38 252.65 360.18 252.24 360.15 251.63C360.12 251.02 360.15 250.37 360.23 249.67C360.32 248.97 360.41 248.28 360.51 247.6C360.61 246.92 360.6 246.4 360.49 246.04L355.45 227.04C355.4 226.82 355.16 226.47 354.76 225.98C354.35 225.49 353.93 224.98 353.51 224.46C353.08 223.93 352.73 223.45 352.46 223.01C352.18 222.56 352.15 222.28 352.36 222.17L360.17 217.87L378.76 237.11C378.85 237.21 379.06 237.35 379.39 237.51C379.73 237.68 380.1 237.87 380.51 238.09C380.91 238.3 381.33 238.53 381.75 238.77C382.17 239.01 382.53 239.25 382.84 239.5C383.14 239.74 383.34 239.98 383.44 240.21C383.54 240.45 383.46 240.66 383.2 240.87L378.76 243.32C378.36 243.54 377.84 243.8 377.21 244.12C376.58 244.44 375.97 244.73 375.39 244.99C374.69 245.32 373.97 245.65 373.25 245.99L372.76 245.85C372.7 245.15 372.64 244.48 372.57 243.85C372.49 243.32 372.38 242.78 372.24 242.25C372.1 241.72 371.9 241.31 371.65 241.02L366.33 243.96L366.36 244.76C366.56 244.9 366.83 245.08 367.19 245.31C367.54 245.54 367.9 245.81 368.27 246.11C368.63 246.41 368.95 246.75 369.24 247.13C369.52 247.5 369.71 247.88 369.79 248.26L361.67 253.14C361.62 253.17 361.48 253.15 361.26 253.1C361.03 253.04 360.86 252.97 360.74 252.88M382.96 233.36C383 233.32 383.36 233.31 384.04 233.34C384.71 233.38 385.54 233.39 386.52 233.39C387.5 233.39 388.54 233.38 389.64 233.35C390.74 233.32 391.74 233.22 392.65 233.04C393.56 232.87 394.28 232.62 394.83 232.29C395.37 231.96 395.56 231.51 395.4 230.94L394.39 227.32C394.38 227.3 394.34 227.24 394.26 227.15C394.18 227.07 394.09 226.98 394 226.89C393.9 226.81 393.81 226.73 393.7 226.66C393.6 226.6 393.52 226.56 393.46 226.55L383.2 225.48C383.12 225.48 383.04 225.46 382.97 225.42C382.84 225.35 382.77 225.28 382.75 225.23C382.64 225.1 382.41 224.87 382.08 224.53C381.75 224.19 381.4 223.83 381.03 223.45C380.66 223.07 380.31 222.71 379.98 222.36C379.64 222.01 379.42 221.77 379.3 221.64L378.92 220.29C378.86 220.08 378.77 219.72 378.65 219.18C378.53 218.65 378.4 218.08 378.27 217.48C378.15 216.88 378.03 216.31 377.92 215.77C377.81 215.24 377.74 214.85 377.7 214.61C377.71 214.47 377.75 214.21 377.82 213.85C377.88 213.49 377.95 213.11 378.04 212.71C378.12 212.31 378.2 211.95 378.27 211.61C378.34 211.27 378.38 211.03 378.4 210.89C378.4 210.8 378.42 210.7 378.45 210.58C378.49 210.46 378.53 210.34 378.58 210.21L378.78 209.74L394.25 205.4L396.19 212.29C396.24 212.47 396.19 212.6 396.05 212.7C395.92 212.79 395.77 212.83 395.63 212.82L390.8 212.01L384.87 213.68C384.61 213.75 384.47 213.98 384.44 214.38C384.42 214.77 384.46 215.2 384.57 215.65C384.68 216.1 384.83 216.51 385.02 216.88C385.2 217.24 385.39 217.42 385.59 217.42L396.45 218.23C397.04 218.29 397.6 218.62 398.12 219.24C398.64 219.86 399.1 220.58 399.51 221.4C399.93 222.23 400.26 223.06 400.53 223.9C400.79 224.74 400.97 225.38 401.07 225.82C401.12 226 401.21 226.36 401.35 226.91C401.49 227.45 401.63 228.09 401.76 228.83C401.9 229.56 402.01 230.33 402.1 231.14C402.19 231.95 402.21 232.71 402.18 233.42C402.15 234.14 402.02 234.75 401.8 235.25C401.58 235.75 401.24 236.06 400.77 236.16C400.36 236.28 399.73 236.45 398.9 236.67C398.06 236.89 397.12 237.13 396.09 237.39C395.06 237.65 393.96 237.93 392.81 238.21C391.66 238.49 390.56 238.77 389.51 239.03C388.47 239.3 387.53 239.54 386.71 239.76C385.88 239.97 385.28 240.14 384.89 240.24ZM417.54 232.09C417.39 231.74 417.22 231.37 417.03 230.99C416.84 230.62 416.66 230.26 416.5 229.92C416.34 229.58 416.24 229.37 416.22 229.29L416.27 227.57L417.54 207.17C417.57 207.02 417.63 206.68 417.73 206.16C417.82 205.64 417.95 205.11 418.11 204.55C418.28 204 418.46 203.51 418.68 203.09C418.89 202.67 419.11 202.46 419.35 202.47L434.3 202.9C434.35 202.9 434.42 202.94 434.52 203.03C434.61 203.11 434.65 203.18 434.65 203.23C434.77 203.71 434.85 204.26 434.9 204.88C434.95 205.49 434.97 206.11 434.97 206.74C434.96 207.37 434.95 207.97 434.92 208.56C434.89 209.14 434.85 209.65 434.81 210.07C434.65 210.26 434.51 210.4 434.4 210.5C434.1 210.73 433.88 210.81 433.75 210.72C433.44 210.45 432.9 210.09 432.12 209.66C431.35 209.22 430.51 208.83 429.6 208.5C428.69 208.17 427.8 207.96 426.94 207.89C426.07 207.81 425.41 207.98 424.94 208.39L424.61 208.74C424.58 208.76 424.56 208.96 424.53 209.34C424.51 209.71 424.49 210.19 424.47 210.77C424.46 211.36 424.44 212.03 424.41 212.77C424.39 213.52 424.37 214.26 424.35 215.01C424.33 215.76 424.31 216.48 424.31 217.17C424.3 217.86 424.3 218.45 424.32 218.93C424.31 219.06 424.32 219.38 424.33 219.89C424.34 220.39 424.36 220.94 424.38 221.51C424.41 222.08 424.43 222.63 424.46 223.15C424.48 223.67 424.49 223.98 424.49 224.09L424.36 228.49C425.95 228.88 427.57 228.95 429.21 228.69C430.86 228.43 432.33 227.77 433.61 226.71C433.64 226.72 433.71 226.71 433.83 226.7C433.95 226.69 434.07 226.7 434.19 226.71C434.31 226.73 434.41 226.77 434.51 226.82C434.6 226.88 434.64 226.96 434.64 227.07L434.44 233.9L433.74 234.56C431.85 234.58 430.01 234.61 428.22 234.64C427.45 234.67 426.66 234.69 425.86 234.69C425.06 234.69 424.27 234.71 423.5 234.72C422.73 234.74 421.99 234.76 421.3 234.78C420.61 234.8 419.99 234.81 419.46 234.83L418.42 234.8L417.8 232.74C417.78 232.66 417.69 232.44 417.54 232.09M438.12 232.7C438.48 232.35 438.85 231.96 439.21 231.53C439.58 231.09 439.91 230.66 440.22 230.21C440.52 229.76 440.72 229.32 440.83 228.88L443.37 218.59C443.48 218.04 443.61 217.29 443.78 216.33C443.95 215.37 444.12 214.43 444.29 213.51C444.46 212.59 444.6 211.77 444.72 211.04C444.83 210.31 444.88 209.91 444.87 209.82L444.34 204.79C444.33 204.6 444.38 204.46 444.48 204.37C444.59 204.29 444.71 204.24 444.85 204.22L447.14 204.78C447.58 204.89 448.26 205.06 449.18 205.3C450.09 205.54 451.12 205.81 452.27 206.11C453.42 206.41 454.63 206.72 455.89 207.06C457.15 207.4 458.35 207.72 459.5 208.03C460.64 208.34 461.66 208.62 462.56 208.87C463.46 209.12 464.13 209.3 464.57 209.41L462.94 216.04C462.9 216.17 462.84 216.25 462.74 216.26C462.64 216.28 462.53 216.29 462.4 216.28C462.28 216.28 462.18 216.26 462.09 216.23C462 216.19 461.94 216.17 461.92 216.16C460.81 214.88 459.45 213.92 457.85 213.29C456.25 212.66 454.64 212.3 453.01 212.2L451.32 217.75C451.89 218.11 452.45 218.26 453.02 218.19C453.59 218.12 454.14 218.01 454.69 217.84C455.24 217.68 455.79 217.54 456.35 217.45C456.91 217.35 457.46 217.43 458.01 217.67L455.73 226.91C455.7 227.04 455.59 227.12 455.4 227.16C455.21 227.19 455.07 227.17 454.98 227.09C454.96 227.06 454.77 226.88 454.4 226.54C454.03 226.2 453.59 225.83 453.07 225.43C452.55 225.03 452.02 224.66 451.49 224.32C450.95 223.98 450.51 223.8 450.16 223.77C449.78 224.88 449.38 226.12 448.95 227.5C448.53 228.88 448.2 230.16 447.97 231.34C449.53 232.02 451.18 232.47 452.93 232.68C454.67 232.89 456.37 232.68 458 232.04C458.31 231.92 458.53 231.99 458.66 232.24C458.79 232.49 458.82 232.72 458.77 232.93L457.22 239.22L456.83 239.49C454.19 238.92 451.65 238.38 449.2 237.86C448.15 237.65 447.08 237.43 445.97 237.18C444.86 236.94 443.78 236.71 442.72 236.49C441.67 236.27 440.66 236.06 439.71 235.87C438.75 235.67 437.91 235.5 437.18 235.35L436.83 235.26L437.24 233.59C437.47 233.35 437.76 233.05 438.12 232.7M459.24 239.89C459.22 239.81 459.25 239.7 459.33 239.55C459.41 239.4 459.48 239.31 459.56 239.28L463.26 236.62L473.55 217.01C473.47 216.52 473.4 216.08 473.33 215.7C473.26 215.32 473.23 214.94 473.25 214.57C473.26 214.2 473.33 213.84 473.45 213.49C473.58 213.13 473.8 212.75 474.1 212.34L480.83 215.87L481.18 232.57L481.3 233.04L486.38 224.91L486.54 224.6C486.37 223.6 486.28 222.71 486.27 221.93C486.26 221.26 486.32 220.65 486.46 220.11C486.6 219.56 486.9 219.29 487.38 219.3L487.66 219.45C487.97 219.61 488.5 219.91 489.26 220.36C490.02 220.8 490.83 221.27 491.68 221.76C492.54 222.26 493.34 222.72 494.1 223.14C494.85 223.57 495.38 223.86 495.69 224.02C495.66 224.43 495.48 224.82 495.15 225.18C494.82 225.55 494.45 225.89 494.03 226.2C493.61 226.51 493.21 226.77 492.81 226.98C492.41 227.19 492.13 227.35 491.96 227.44L487.19 236.54C487.08 236.72 486.88 237.12 486.58 237.73C486.28 238.34 485.92 239.05 485.53 239.87C485.13 240.68 484.71 241.55 484.27 242.48C483.83 243.4 483.41 244.28 483.01 245.09C482.61 245.91 482.26 246.62 481.96 247.23C481.65 247.83 481.45 248.23 481.35 248.42L480.24 250.54L479.77 250.66L474.46 247.87L473.38 231.96C472.82 232.8 472.21 233.69 471.56 234.61C470.91 235.53 470.33 236.5 469.82 237.49C469.31 238.49 468.94 239.51 468.7 240.56C468.47 241.61 468.49 242.68 468.77 243.76L468.3 244.64C465.32 243.5 462.45 242.12 459.68 240.52C459.63 240.5 459.55 240.4 459.44 240.24C459.33 240.07 459.26 239.96 459.24 239.89M486.25 255.77C486.56 255.25 486.94 254.87 487.4 254.62C487.85 254.36 488.33 254.14 488.83 253.96C489.32 253.77 489.81 253.57 490.29 253.35C490.77 253.13 491.2 252.78 491.58 252.31L503.68 237.5C503.33 237.87 502.84 238.1 502.23 238.19C501.61 238.29 500.98 238.28 500.34 238.16C499.7 238.04 499.1 237.83 498.55 237.54C497.99 237.24 497.58 236.9 497.33 236.5C497.49 236.28 497.76 235.92 498.15 235.41C498.55 234.9 498.97 234.36 499.42 233.78C499.88 233.21 500.3 232.67 500.71 232.17C501.11 231.67 501.4 231.32 501.57 231.12L502.94 229.56C502.98 229.52 503.06 229.5 503.18 229.5C503.31 229.51 503.39 229.52 503.43 229.56L518.53 242.83C518.57 242.87 518.59 242.95 518.58 243.08C518.57 243.22 518.54 243.35 518.49 243.49L518.35 244L513.39 249.65C513.11 249.97 512.82 250.07 512.53 249.96C512.24 249.85 512.04 249.63 511.93 249.32C511.84 249.18 511.73 248.93 511.59 248.58C511.46 248.23 511.32 247.86 511.17 247.49C511.02 247.11 510.88 246.75 510.75 246.42C510.61 246.09 510.52 245.87 510.48 245.76C510.43 245.61 510.48 245.39 510.63 245.1C510.79 244.81 510.91 244.52 511 244.25C511.1 243.98 511.12 243.76 511.07 243.57C511.02 243.38 510.77 243.31 510.32 243.33L499.29 255.89C498.36 256.66 497.7 257.44 497.3 258.21C496.91 258.98 496.61 259.71 496.41 260.41C496.21 261.1 496.01 261.73 495.82 262.29C495.63 262.85 495.27 263.31 494.72 263.69L486.29 256.27C486.25 256.24 486.22 256.15 486.21 256.02C486.2 255.89 486.22 255.81 486.25 255.77M501.66 267.33C502.16 267.29 502.69 267.22 503.25 267.13C503.8 267.03 504.34 266.91 504.86 266.76C505.38 266.61 505.82 266.4 506.19 266.13L514.73 259.86C515.16 259.51 515.75 259.02 516.5 258.39C517.24 257.76 517.97 257.15 518.69 256.55C519.41 255.96 520.05 255.41 520.6 254.93C521.15 254.44 521.45 254.16 521.5 254.09L524.32 249.89C524.43 249.74 524.56 249.66 524.69 249.66C524.83 249.66 524.95 249.7 525.08 249.78L526.47 251.68C526.74 252.05 527.15 252.61 527.7 253.38C528.25 254.15 528.87 255.02 529.56 255.98C530.25 256.95 530.97 257.97 531.72 259.03C532.48 260.1 533.19 261.12 533.87 262.09C534.55 263.06 535.16 263.93 535.69 264.7C536.22 265.47 536.62 266.04 536.89 266.4L531.38 270.45C531.27 270.52 531.17 270.54 531.09 270.49C531 270.44 530.91 270.37 530.82 270.29C530.72 270.21 530.65 270.13 530.61 270.04C530.57 269.96 530.54 269.91 530.52 269.89C530.49 268.19 530.07 266.58 529.24 265.07C528.42 263.57 527.41 262.25 526.23 261.14L521.37 264.31C521.57 264.95 521.91 265.43 522.39 265.74C522.87 266.05 523.37 266.32 523.9 266.54C524.42 266.77 524.93 267.02 525.42 267.31C525.92 267.59 526.29 268 526.55 268.54L518.88 274.17C518.78 274.25 518.64 274.24 518.47 274.15C518.31 274.05 518.21 273.95 518.19 273.83C518.2 273.8 518.17 273.53 518.1 273.03C518.03 272.54 517.93 271.97 517.79 271.33C517.65 270.69 517.48 270.06 517.29 269.46C517.09 268.86 516.87 268.44 516.63 268.19C515.62 268.8 514.51 269.49 513.3 270.28C512.09 271.07 511.02 271.84 510.09 272.59C510.85 274.12 511.83 275.52 513.03 276.8C514.24 278.09 515.68 279.01 517.34 279.57C517.65 279.67 517.77 279.86 517.71 280.14C517.65 280.41 517.53 280.62 517.36 280.74L512.14 284.58L511.66 284.53C510.01 282.41 508.4 280.36 506.86 278.39C506.18 277.56 505.5 276.7 504.81 275.8C504.12 274.91 503.43 274.03 502.76 273.19C502.09 272.34 501.45 271.54 500.84 270.78C500.24 270.02 499.7 269.34 499.24 268.76L499.02 268.47L500.41 267.45C500.74 267.41 501.16 267.37 501.66 267.33M538.6 286.69C538.19 286.89 537.7 287.14 537.14 287.46C536.58 287.78 536.03 288.09 535.5 288.39C534.87 288.77 534.21 289.14 533.53 289.5L535.46 294.2L542.38 291.36L542.57 290.89C542.58 290.86 542.53 290.69 542.4 290.38C542.28 290.07 542.12 289.7 541.95 289.27C541.77 288.84 541.59 288.39 541.4 287.94C541.21 287.48 541.05 287.11 540.9 286.82C540.88 286.77 540.77 286.64 540.58 286.42C540.39 286.19 540.26 286.07 540.19 286.04ZZM520.81 302.41C520.99 302.23 521.22 301.97 521.5 301.63C521.79 301.3 522.08 300.97 522.38 300.65C522.67 300.33 522.94 300.04 523.17 299.8C523.41 299.57 523.55 299.43 523.6 299.41L529.92 296.82L527.74 291.49L516.79 295.25L513.95 288.33C513.92 288.26 513.89 288.14 513.84 287.97C513.8 287.8 513.75 287.61 513.7 287.4C513.64 287.19 513.59 286.99 513.55 286.79C513.52 286.59 513.49 286.45 513.49 286.36C513.51 286.35 513.88 286.3 514.59 286.21C515.3 286.12 516.13 286.01 517.07 285.87C518 285.73 518.94 285.56 519.88 285.36C520.82 285.16 521.53 284.95 522.02 284.72C522.43 284.53 523.08 284.22 523.98 283.81C524.87 283.4 525.88 282.94 527 282.44C528.12 281.94 529.29 281.4 530.52 280.84C531.74 280.28 532.91 279.75 534.03 279.25C535.15 278.75 536.15 278.29 537.04 277.89C537.92 277.48 538.59 277.19 539.03 277C539.28 276.84 539.53 276.66 539.77 276.44C540.02 276.23 540.27 276.02 540.54 275.83C540.8 275.63 541.07 275.45 541.35 275.29C541.64 275.14 541.93 275.02 542.25 274.95L548.29 289.67C549.13 291.77 549.48 293.45 549.34 294.7C549.21 295.96 548.7 296.96 547.82 297.73C546.93 298.49 545.73 299.11 544.21 299.58C542.69 300.04 540.97 300.57 539.05 301.16C538.61 301.22 538.21 301.2 537.84 301.11C537.47 301.02 537.12 300.89 536.79 300.72C536.47 300.55 536.13 300.36 535.79 300.16C535.44 299.95 535.09 299.77 534.73 299.6C534.46 300.2 534.21 300.76 533.96 301.3C533.74 301.74 533.54 302.15 533.36 302.56C533.18 302.97 533.04 303.22 532.93 303.32C532.9 303.39 532.82 303.49 532.7 303.63C532.56 303.77 532.48 303.85 532.43 303.87C532.21 303.96 531.84 304.12 531.35 304.36C530.85 304.59 530.34 304.84 529.8 305.1C529.26 305.36 528.74 305.62 528.25 305.86C527.76 306.11 527.42 306.28 527.24 306.39C527.02 306.51 526.71 306.8 526.3 307.27C525.89 307.74 525.46 308.22 525.01 308.71C524.56 309.19 524.14 309.59 523.73 309.9C523.33 310.21 523.03 310.26 522.86 310.04C522.61 309.57 522.27 309.02 521.85 308.38C521.44 307.75 521.08 307.08 520.77 306.38C520.47 305.69 520.29 305 520.23 304.32C520.17 303.64 520.36 303 520.81 302.41M425.8 287.64L435.65 287.64L435.65 263.33L391.64 263.33L391.48 309.48L351.7 309.48L385.31 351.74L396.28 351.74L396.28 341.9L390.06 341.9L372.11 319.32L401.29 319.32L401.45 273.18L425.8 273.18ZM482.42 293.08L460.97 293.08L460.97 302.93L474.9 302.93L482.1 329.23L474.56 344.04L453.35 355.08L442.17 379.99L434.62 376.39L417.76 352.4L405.72 352.4L428.05 384.16L447.02 393.21L460.93 362.23L481.91 351.31L492.59 330.3ZM435.86 324.84L425.59 324.84L425.59 350.47L435.86 350.47ZM406.25 292.97L406.25 303.24L425.59 303.24L425.59 309.78L435.86 309.78L435.86 303.24L455.2 303.24L455.2 292.97ZM438.25 343.76L455.21 343.76L455.21 333.49L438.25 333.49ZM406.25 312.17L406.25 343.75L423.2 343.75L423.2 333.49L416.52 333.49L416.52 322.44L455.2 322.44L455.2 312.17Z"/>
+</svg>
+      <div class="brand-div"></div>
+      <div class="title">
+        <h1>Plano de Ação</h1>
+        <div class="sub">Reunião de Diretoria · Texas Center</div>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="clock mono" id="clock">–:–</div>
+      <div class="datestale"><span id="hdate"></span> · <span id="stale">aguardando dados</span></div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-num c-red" id="k-late">–</div><div class="kpi-label">Atrasadas</div></div>
+    <div class="kpi"><div class="kpi-num c-amber" id="k-soon">–</div><div class="kpi-label">Vencem em 7 dias</div></div>
+    <div class="kpi"><div class="kpi-num c-blocked" id="k-blocked">–</div><div class="kpi-label">Bloqueadas</div></div>
+    <div class="kpi"><div class="kpi-num c-ok" id="k-ontrack">–</div><div class="kpi-label">Em dia</div></div>
+    <div class="kpi">
+      <div><span class="kpi-num" id="k-done">–</span><span class="kpi-of" id="k-of"></span></div>
+      <div class="kpi-label" id="k-done-label">Concluídas</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="left panel">
+      <div class="sect"><h2>Radar de execução</h2><span class="cnt" id="radar-cnt"></span></div>
+      <div id="radar"></div>
+    </div>
+    <div class="rightcol">
+      <div class="panel" id="p-blocked">
+        <div class="sect"><h2>Bloqueadas</h2><span class="cnt" id="blocked-cnt"></span></div>
+        <div id="blocked"></div>
+      </div>
+      <div class="panel" id="p-resp">
+        <div class="sect"><h2>Pendências por responsável</h2></div>
+        <div id="resp"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr">
+    <div>Fonte: planilha da diretoria (Google Sheets) · atualização automática a cada 5 min</div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div id="offline">
+    <div class="t1">Sem conexão com a planilha</div>
+    <div class="t2">Nova tentativa automática em instantes</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnmNn_VTsq6_AsfQO2hhuQdUXYQe2OlECv--D1Tv8gmBVs734nafej4iS6zgXxySrQXVjDQckBQcJ6/pub?output=csv';
+  var DAY = 86400000;
+  var PAGE_SIZE = 8;
+  var ROTATE_MS = 12000;
+  var REFRESH_MS = 5 * 60000;
+  var CACHE_KEY = 'txc-plano-v1';
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function fold(s) {
+    s = String(s).toLowerCase();
+    try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+    return s;
+  }
+  function clean(s) {
+    if (s === null || s === undefined) return null;
+    s = String(s).replace(/\s+/g, ' ').trim();
+    if (!s || /^[—–\-]+$/.test(s)) return null;
+    return s;
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function todayMid() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+
+  /* ---------- CSV ---------- */
+  function parseCSV(text) {
+    var rows = [], row = [], cell = '', q = false, i, ch;
+    for (i = 0; i < text.length; i++) {
+      ch = text[i];
+      if (q) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') { cell += '"'; i++; }
+          else q = false;
+        } else cell += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cell); cell = ''; }
+      else if (ch === '\n' || ch === '\r') {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        row.push(cell); cell = '';
+        rows.push(row); row = [];
+      } else cell += ch;
+    }
+    if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  /* ---------- normalização ---------- */
+  var MONTHS = { janeiro: 0, fevereiro: 1, marco: 2, abril: 3, maio: 4, junho: 5, julho: 6, agosto: 7, setembro: 8, outubro: 9, novembro: 10, dezembro: 11 };
+
+  function inferYear(d, m, ref) {
+    var best = null, bd = Infinity, y, dt, diff;
+    for (y = ref.getFullYear() - 1; y <= ref.getFullYear() + 1; y++) {
+      dt = new Date(y, m, d);
+      if (dt.getMonth() !== m) continue;
+      diff = Math.abs(dt - ref);
+      if (diff < bd) { bd = diff; best = dt; }
+    }
+    return best;
+  }
+
+  function parsePrazo(rawIn, ref) {
+    var raw = clean(rawIn);
+    if (!raw) return { due: null, raw: null };
+    var re = /(\d{1,2})\/(\d{1,2})/g, m, last = null;
+    while ((m = re.exec(raw))) last = m;
+    if (last) {
+      var dd = +last[1], mm = +last[2] - 1;
+      if (mm >= 0 && mm < 12 && dd >= 1 && dd <= 31) {
+        var due = inferYear(dd, mm, ref);
+        if (due) return { due: due, raw: raw };
+      }
+    }
+    var f = fold(raw), name;
+    for (name in MONTHS) {
+      if (f.indexOf(name) !== -1) {
+        var base = inferYear(1, MONTHS[name], ref);
+        return { due: new Date(base.getFullYear(), MONTHS[name] + 1, 0), raw: raw };
+      }
+    }
+    if (f === 'hoje') return { due: new Date(ref.getTime()), raw: raw };
+    if (f.indexOf('amanha') === 0) return { due: new Date(ref.getTime() + DAY), raw: raw };
+    return { due: null, raw: raw };
+  }
+
+  function statusCanon(s) {
+    var f = fold(clean(s) || '');
+    if (f.indexOf('conclu') !== -1) return 'done';
+    if (f.indexOf('bloque') !== -1) return 'blocked';
+    if (f.indexOf('atras') !== -1) return 'late';
+    if (f.indexOf('andamento') !== -1) return 'doing';
+    if (f.indexOf('nao inicia') !== -1) return 'todo';
+    if (f.indexOf('definir') !== -1) return 'tbd';
+    return 'other';
+  }
+
+  function areaCanon(s) {
+    var c = clean(s);
+    if (!c) return 'Sem área';
+    if (fold(c) === 'operacoes de loja') return 'Operações & Loja';
+    return c;
+  }
+
+  function donoDisplay(s) {
+    var c = clean(s);
+    if (!c) return 'A definir';
+    if (c.charAt(0) === '[' || fold(c).indexOf('definir') !== -1) return 'A definir';
+    c = c.replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+    var i = c.indexOf(' - ');
+    if (i > 0) c = c.slice(0, i);
+    c = c.replace(/^[,;\s]+/, '').replace(/[,;\s]+$/, '');
+    return c || 'A definir';
+  }
+
+  function shorten(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
+  /* ---------- pipeline ---------- */
+  function buildItems(csvText) {
+    var rows = parseCSV(csvText);
+    var hi = -1, i, j;
+    for (i = 0; i < Math.min(rows.length, 6); i++) {
+      if (clean(rows[i][0]) === '#') { hi = i; break; }
+    }
+    if (hi < 0) throw new Error('cabecalho nao encontrado');
+    var col = {};
+    for (j = 0; j < rows[hi].length; j++) {
+      var h = fold(clean(rows[hi][j]) || '');
+      if (h === '#') col.num = j;
+      /* "observacao" contém "acao": checar antes da coluna de ação */
+      else if (h.indexOf('observa') !== -1) col.obs = j;
+      else if (h.indexOf('area') !== -1) col.area = j;
+      else if (h.indexOf('objetivo') !== -1 || h.indexOf('acao') !== -1) col.acao = j;
+      else if (h.indexOf('dono') !== -1) col.dono = j;
+      else if (h.indexOf('apoio') !== -1 || h.indexOf('executor') !== -1) col.apoio = j;
+      else if (h.indexOf('prazo') !== -1) col.prazo = j;
+      else if (h.indexOf('status') !== -1) col.status = j;
+    }
+    if (col.acao === undefined || col.status === undefined) throw new Error('colunas essenciais ausentes');
+    var ref = todayMid();
+    var items = [];
+    for (i = hi + 1; i < rows.length; i++) {
+      var r = rows[i];
+      var acao = clean(r[col.acao]);
+      if (!acao) continue;
+      items.push({
+        num: clean(r[col.num]) || '',
+        area: areaCanon(r[col.area]),
+        acao: acao,
+        dono: donoDisplay(r[col.dono]),
+        prazo: parsePrazo(r[col.prazo], ref),
+        st: statusCanon(r[col.status]),
+        obs: clean(col.obs !== undefined ? r[col.obs] : null)
+      });
+    }
+    if (items.length < 5) throw new Error('poucas linhas validas: ' + items.length);
+    return items;
+  }
+
+  function derive(items) {
+    var ref = todayMid();
+    var i, it, due;
+    for (i = 0; i < items.length; i++) {
+      it = items[i];
+      due = it.prazo.due;
+      it.daysLate = 0;
+      it.late = false;
+      it.soon = false;
+      if (it.st === 'done' || it.st === 'blocked') continue;
+      if (it.st === 'late') {
+        it.late = true;
+        if (due && due < ref) it.daysLate = Math.round((ref - due) / DAY);
+      } else if (due && due < ref) {
+        it.late = true;
+        it.daysLate = Math.round((ref - due) / DAY);
+      } else if (due && (due - ref) <= 7 * DAY) {
+        it.soon = true;
+      }
+    }
+    return items;
+  }
+
+  /* ---------- render ---------- */
+  var state = { items: null, pages: [], pageIdx: 0, rotT: null, lastOk: null };
+
+  function badgeHTML(it) {
+    var due = it.prazo.due, ref = todayMid();
+    if (it.late) {
+      if (it.daysLate > 0) return '<div class="badge b-late">há ' + it.daysLate + (it.daysLate === 1 ? ' dia' : ' dias') + '</div>';
+      return '<div class="badge b-late">em atraso</div>';
+    }
+    if (due) {
+      var dd = Math.round((due - ref) / DAY);
+      if (dd === 0) return '<div class="badge b-soon">hoje</div>';
+      if (dd === 1) return '<div class="badge b-soon">amanhã</div>';
+      if (dd <= 7) return '<div class="badge b-soon">em ' + dd + ' dias</div>';
+      return '<div class="badge b-date">' + pad2(due.getDate()) + '/' + pad2(due.getMonth() + 1) + '</div>';
+    }
+    if (it.prazo.raw) return '<div class="badge b-raw">' + esc(shorten(it.prazo.raw, 16)) + '</div>';
+    return '<div class="badge b-raw">sem prazo</div>';
+  }
+
+  function drawRadarPage() {
+    var el = $('radar');
+    var page = state.pages[state.pageIdx] || [];
+    var html = '', i, it;
+    for (i = 0; i < page.length; i++) {
+      it = page[i];
+      html += '<div class="row">' + badgeHTML(it) +
+        '<div class="rmain"><div class="racao">' + esc(it.acao) + '</div>' +
+        '<div class="rmeta"><b>' + esc(it.dono) + '</b> · ' + esc(it.area) +
+        (it.num ? ' · #' + esc(it.num) : '') + '</div></div></div>';
+    }
+    if (!page.length) html = '<div class="empty">Nenhuma ação em aberto.</div>';
+    el.innerHTML = html;
+    var dots = '', p;
+    if (state.pages.length > 1) {
+      for (p = 0; p < state.pages.length; p++) {
+        dots += '<span' + (p === state.pageIdx ? ' class="on"' : '') + '></span>';
+      }
+    }
+    $('dots').innerHTML = dots;
+  }
+
+  function nextPage() {
+    if (state.pages.length < 2) return;
+    var el = $('radar');
+    el.style.opacity = 0;
+    setTimeout(function () {
+      state.pageIdx = (state.pageIdx + 1) % state.pages.length;
+      drawRadarPage();
+      el.style.opacity = 1;
+    }, 260);
+  }
+
+  function render() {
+    var items = derive(state.items);
+    var late = [], soon = [], blocked = [], done = [], ontrack = [];
+    var i, it;
+    for (i = 0; i < items.length; i++) {
+      it = items[i];
+      if (it.st === 'done') done.push(it);
+      else if (it.st === 'blocked') blocked.push(it);
+      else if (it.late) late.push(it);
+      else if (it.soon) soon.push(it);
+      else ontrack.push(it);
+    }
+
+    /* KPIs */
+    var total = items.length;
+    $('k-late').textContent = late.length;
+    $('k-late').className = 'kpi-num ' + (late.length ? 'c-red' : 'c-zero');
+    $('k-soon').textContent = soon.length;
+    $('k-soon').className = 'kpi-num ' + (soon.length ? 'c-amber' : 'c-zero');
+    $('k-blocked').textContent = blocked.length;
+    $('k-blocked').className = 'kpi-num ' + (blocked.length ? 'c-blocked' : 'c-zero');
+    $('k-ontrack').textContent = ontrack.length;
+    $('k-ontrack').className = 'kpi-num ' + (ontrack.length ? 'c-ok' : 'c-zero');
+    $('k-done').textContent = done.length;
+    $('k-of').textContent = 'de ' + total;
+    var pct = total ? Math.round(done.length / total * 100) : 0;
+    $('k-done-label').textContent = 'Concluídas · ' + pct + '%';
+
+    /* radar: atrasadas (mais antigas primeiro) > vencem breve > com prazo > sem prazo */
+    late.sort(function (a, b) { return b.daysLate - a.daysLate; });
+    soon.sort(function (a, b) { return a.prazo.due - b.prazo.due; });
+    var dated = [], undated = [];
+    for (i = 0; i < ontrack.length; i++) (ontrack[i].prazo.due ? dated : undated).push(ontrack[i]);
+    dated.sort(function (a, b) { return a.prazo.due - b.prazo.due; });
+    var stOrder = { doing: 0, todo: 1, tbd: 2, other: 3, late: 0 };
+    undated.sort(function (a, b) { return (stOrder[a.st] || 0) - (stOrder[b.st] || 0); });
+    var radar = late.concat(soon, dated, undated);
+
+    $('radar-cnt').textContent = radar.length + ' em aberto';
+    state.pages = [];
+    for (i = 0; i < radar.length; i += PAGE_SIZE) state.pages.push(radar.slice(i, i + PAGE_SIZE));
+    if (state.pageIdx >= state.pages.length) state.pageIdx = 0;
+    drawRadarPage();
+    if (state.rotT) clearInterval(state.rotT);
+    state.rotT = state.pages.length > 1 ? setInterval(nextPage, ROTATE_MS) : null;
+
+    /* bloqueadas: com prazo estourado primeiro */
+    var refB = todayMid();
+    blocked.sort(function (a, b) {
+      var ao = a.prazo.due && a.prazo.due < refB ? a.prazo.due.getTime() : Infinity;
+      var bo = b.prazo.due && b.prazo.due < refB ? b.prazo.due.getTime() : Infinity;
+      return ao - bo;
+    });
+    var bhtml = '', cap = blocked.length <= 4 ? blocked.length : 3;
+    for (i = 0; i < cap; i++) {
+      it = blocked[i];
+      var motivo;
+      if (it.obs) motivo = esc(it.obs);
+      else if (it.prazo.due) {
+        var pv = 'prazo ' + pad2(it.prazo.due.getDate()) + '/' + pad2(it.prazo.due.getMonth() + 1);
+        motivo = it.prazo.due < refB ? '<span class="late-t">' + pv + ' · vencido</span>' : pv;
+      } else motivo = it.prazo.raw ? esc(it.prazo.raw) : '';
+      bhtml += '<div class="bitem"><div class="bacao">' + esc(it.acao) + '</div>' +
+        '<div class="bmeta"><b>' + esc(it.dono) + '</b>' + (motivo ? ' · ' + motivo : '') + '</div></div>';
+    }
+    if (blocked.length > cap) bhtml += '<div class="bmore">+ ' + (blocked.length - cap) + ' outras bloqueadas</div>';
+    if (!blocked.length) bhtml = '<div class="empty">Nenhuma ação bloqueada.</div>';
+    $('blocked').innerHTML = bhtml;
+    $('blocked-cnt').textContent = blocked.length ? blocked.length + (blocked.length === 1 ? ' ação' : ' ações') : '';
+
+    /* pendências por responsável (aberto = tudo menos concluído) */
+    var byResp = {}, names = [];
+    for (i = 0; i < items.length; i++) {
+      it = items[i];
+      if (it.st === 'done') continue;
+      var partes = it.dono === 'A definir' ? ['A definir'] : it.dono.split(/\s*(?:\/|&|\+|,)\s*|\s+e\s+/);
+      for (var p = 0; p < partes.length; p++) {
+        var nome = partes[p].replace(/^\s+|\s+$/g, '');
+        if (!nome) continue;
+        if (!byResp[nome]) { byResp[nome] = { open: 0, late: 0 }; names.push(nome); }
+        byResp[nome].open++;
+        if (it.late) byResp[nome].late++;
+      }
+    }
+    names.sort(function (a, b) {
+      return (byResp[b].late - byResp[a].late) || (byResp[b].open - byResp[a].open) || a.localeCompare(b);
+    });
+    var MAXR = names.length <= 6 ? names.length : 5, rhtml = '';
+    for (i = 0; i < Math.min(names.length, MAXR); i++) {
+      var rp = byResp[names[i]];
+      rhtml += '<div class="rrow"><div class="rname' + (names[i] === 'A definir' ? ' tbd' : '') + '">' + esc(names[i]) + '</div>' +
+        (rp.late ? '<div class="rlate">' + rp.late + (rp.late === 1 ? ' atrasada' : ' atrasadas') + '</div>' : '') +
+        '<div class="ropen">' + rp.open + (rp.open === 1 ? ' aberta' : ' abertas') + '</div></div>';
+    }
+    if (names.length > MAXR) rhtml += '<div class="bmore">+ ' + (names.length - MAXR) + ' outros responsáveis</div>';
+    if (!names.length) rhtml = '<div class="empty">Nenhuma pendência.</div>';
+    $('resp').innerHTML = rhtml;
+
+    $('offline').style.display = 'none';
+  }
+
+  /* ---------- relógio / staleness ---------- */
+  var WD = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+  function tickClock() {
+    var n = new Date();
+    $('clock').textContent = pad2(n.getHours()) + ':' + pad2(n.getMinutes());
+    $('hdate').textContent = WD[n.getDay()] + ', ' + pad2(n.getDate()) + '/' + pad2(n.getMonth() + 1);
+    var st = $('stale');
+    if (state.lastOk) {
+      st.textContent = 'atualizado às ' + pad2(state.lastOk.getHours()) + ':' + pad2(state.lastOk.getMinutes());
+      var age = n - state.lastOk;
+      st.className = age > 60 * 60000 ? 'bad' : (age > 20 * 60000 ? 'warn' : '');
+    }
+  }
+
+  /* ---------- fetch ---------- */
+  var retries = 0;
+  function saveCache(csv) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ csv: csv, at: Date.now() })); } catch (e) {}
+  }
+  function loadCache() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CACHE_KEY));
+      if (c && c.csv) return c;
+    } catch (e) {}
+    return null;
+  }
+
+  function fetchData() {
+    var x = new XMLHttpRequest();
+    x.open('GET', CSV_URL + '&_=' + Date.now(), true);
+    x.timeout = 20000;
+    x.onload = function () {
+      if (x.status === 200) {
+        try {
+          state.items = buildItems(x.responseText);
+          state.lastOk = new Date();
+          retries = 0;
+          saveCache(x.responseText);
+          render();
+          tickClock();
+          return;
+        } catch (e) {
+          if (window.console && console.error) console.error('plano-acao: falha ao processar CSV', e);
+        }
+      }
+      fail();
+    };
+    x.onerror = fail;
+    x.ontimeout = fail;
+    x.send();
+  }
+  function fail() {
+    if (!state.items) $('offline').style.display = 'flex';
+    /* retries rápidos no começo: TV ligando com Wi-Fi ainda subindo */
+    var delays = [4000, 15000, 60000, 60000];
+    if (retries < delays.length) { setTimeout(fetchData, delays[retries]); retries++; }
+  }
+
+  /* ---------- escala / boot ---------- */
+  function fit() {
+    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    $('stage').style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+
+  function schedDailyReload() {
+    var n = new Date();
+    var t = new Date(n.getFullYear(), n.getMonth(), n.getDate(), 3, 0, 0);
+    if (t <= n) t = new Date(t.getTime() + DAY);
+    setTimeout(function () { window.location.reload(); }, t - n);
+  }
+
+  fit();
+  tickClock();
+  setInterval(tickClock, 15000);
+  var cache = loadCache();
+  if (cache) {
+    try {
+      state.items = buildItems(cache.csv);
+      state.lastOk = new Date(cache.at);
+      render();
+      tickClock();
+    } catch (e) {}
+  }
+  fetchData();
+  setInterval(function () { retries = 0; fetchData(); }, REFRESH_MS);
+  schedDailyReload();
+})();
+</script>
+</body>
+</html>
