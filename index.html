@@ -181,6 +181,17 @@
     box-shadow: 0 -18px 50px rgb(0 0 0 / .45);
   }
   .case:nth-child(even) { background: var(--panel-2); }
+  .case[data-dialog] {
+    cursor: pointer;
+    transition: border-color .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
+  }
+  .case[data-dialog]:hover, .case[data-dialog]:focus-visible {
+    border-color: #4a4a52;
+    transform: translateY(-4px);
+  }
+  .case.lime[data-dialog]:hover, .case.lime[data-dialog]:focus-visible {
+    border-color: var(--accent-ink);
+  }
   .case.lime {
     background: var(--accent);
     border-color: var(--accent);
@@ -347,6 +358,83 @@
     font-size: .85rem;
   }
 
+  /* ---------- Modal de case ---------- */
+  .case-dialog {
+    margin: auto;
+    width: min(560px, calc(100vw - 2rem));
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: var(--r-panel);
+    padding: clamp(1.8rem, 4vw, 2.6rem);
+  }
+  .case-dialog::backdrop { background: rgb(0 0 0 / .65); }
+  .case-dialog[open] { animation: dpop .3s cubic-bezier(.16,1,.3,1); }
+  @keyframes dpop {
+    from { opacity: 0; transform: translateY(14px) scale(.985); }
+    to { opacity: 1; transform: none; }
+  }
+  .case-dialog .d-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .case-dialog h3 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 780;
+    letter-spacing: -.03em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .d-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, transform .1s ease;
+  }
+  .d-close:hover { color: var(--text); border-color: var(--accent); }
+  .d-close:active { transform: scale(.94); }
+  .d-close svg { width: 15px; height: 15px; }
+  .case-dialog .d-status {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: .78rem;
+    letter-spacing: .04em;
+    color: var(--accent);
+    margin-bottom: 1.1rem;
+  }
+  .case-dialog ul { list-style: none; display: grid; gap: .55rem; margin-bottom: 1.5rem; }
+  .case-dialog li { color: var(--muted); font-size: .95rem; padding-left: 1.15rem; position: relative; }
+  .case-dialog li::before { content: "/"; position: absolute; left: 0; color: var(--accent); }
+  .case-dialog .d-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+  }
+  .d-repo {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .875rem;
+    font-weight: 550;
+    color: var(--accent);
+  }
+  .d-repo:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .d-repo svg { width: 14px; height: 14px; }
+
   /* ---------- Revelação ao rolar ---------- */
   html.js .reveal {
     opacity: 0;
@@ -362,7 +450,8 @@
     html.js .hero-sub p, html.js nav .wrap { animation: none; opacity: 1; }
     .marquee-track { animation: none; }
     html.js .reveal { opacity: 1; transform: none; transition: none; }
-    .repo-row, .repo-row .right svg, .gh-link, .mail { transition: none; }
+    .repo-row, .repo-row .right svg, .gh-link, .mail, .case[data-dialog] { transition: none; }
+    .case-dialog[open] { animation: none; }
   }
 
   /* ---------- Mobile ---------- */
@@ -428,7 +517,7 @@
       <h2 class="works-head">Trabalhos selecionados</h2>
       <div class="cases">
 
-        <article class="case lime" style="--i:0">
+        <article class="case lime" style="--i:0" data-dialog="d-compraai" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Abrir detalhes de Compra.ai">
           <span class="app-icon" aria-hidden="true">CA</span>
           <h3>Compra.ai</h3>
           <div class="tags">
@@ -438,7 +527,7 @@
           <p class="desc">BI e copiloto de compras para varejo de moda. Dashboards de vendas por canal, reposição por cobertura de estoque e a Vera, agente de IA que consulta giro, grade e estoque direto do ERP.</p>
         </article>
 
-        <article class="case" style="--i:1">
+        <article class="case" style="--i:1" data-dialog="d-listadavez" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Abrir detalhes de Lista da Vez">
           <span class="app-icon" aria-hidden="true">LV</span>
           <h3>Lista da Vez</h3>
           <div class="tags">
@@ -448,7 +537,7 @@
           <p class="desc">Quadro drag-and-drop que transforma carrinhos abandonados e pagamentos cancelados da loja virtual em filas de atendimento para os vendedores.</p>
         </article>
 
-        <article class="case" style="--i:2">
+        <article class="case" style="--i:2" data-dialog="d-credito" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Abrir detalhes de Central de Crédito">
           <span class="app-icon" aria-hidden="true">CC</span>
           <h3>Central de Crédito</h3>
           <div class="tags">
@@ -458,7 +547,7 @@
           <p class="desc">Central de análise de crédito para a mesa comercial: classes de cliente, limites calculados e travas automáticas seguindo a política oficial.</p>
         </article>
 
-        <article class="case" style="--i:3">
+        <article class="case" style="--i:3" data-dialog="d-minhavez" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Abrir detalhes de Minha Vez">
           <span class="app-icon" aria-hidden="true">MV</span>
           <h3>Minha Vez</h3>
           <div class="tags">
@@ -468,7 +557,7 @@
           <p class="desc">SaaS em produção para gestão da vez de atendimento em lojas físicas.</p>
         </article>
 
-        <article class="case" style="--i:4">
+        <article class="case" style="--i:4" data-dialog="d-cnpj" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Abrir detalhes de Consulta CNPJ em lote">
           <span class="app-icon" aria-hidden="true">CN</span>
           <h3>Consulta CNPJ em lote</h3>
           <div class="tags">
@@ -542,7 +631,110 @@
   </div>
 </footer>
 
+<dialog class="case-dialog" id="d-compraai">
+  <div class="d-head">
+    <h3>Compra.ai</h3>
+    <button class="d-close" aria-label="Fechar"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <p class="d-status">Em uso diário na operação</p>
+  <ul>
+    <li>Dashboards de vendas por canal, com metas e projeção do mês</li>
+    <li>Reposição por cobertura de estoque, SKU a SKU</li>
+    <li>Vera: agente de IA que responde sobre giro, grade e estoque</li>
+    <li>Sincronização diária com o ERP</li>
+  </ul>
+  <div class="d-foot">
+    <span class="mono" style="color: var(--muted)">Next.js / Supabase / IA</span>
+    <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+  </div>
+</dialog>
+
+<dialog class="case-dialog" id="d-listadavez">
+  <div class="d-head">
+    <h3>Lista da Vez</h3>
+    <button class="d-close" aria-label="Fechar"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <p class="d-status">Em produção no e-commerce</p>
+  <ul>
+    <li>Carrinhos abandonados e pagamentos cancelados da Tray viram cartões</li>
+    <li>Duas filas da vez independentes e contínuas para os vendedores</li>
+    <li>Quadro drag-and-drop, pensado para uso no balcão</li>
+  </ul>
+  <div class="d-foot">
+    <span class="mono" style="color: var(--muted)">React / Supabase / Tray</span>
+    <a class="d-repo" href="https://github.com/matheushmangili-ux/listaveztexas" target="_blank" rel="noopener">listaveztexas no GitHub
+      <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+    </a>
+  </div>
+</dialog>
+
+<dialog class="case-dialog" id="d-credito">
+  <div class="d-head">
+    <h3>Central de Crédito</h3>
+    <button class="d-close" aria-label="Fechar"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <p class="d-status">Análise de crédito para a mesa comercial</p>
+  <ul>
+    <li>Classes de cliente e travas automáticas seguindo a política oficial</li>
+    <li>Limite calculado a partir do histórico de pagamentos</li>
+    <li>Fluxo de aprovação com todo o contexto numa tela</li>
+  </ul>
+  <div class="d-foot">
+    <span class="mono" style="color: var(--muted)">Next.js</span>
+    <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+  </div>
+</dialog>
+
+<dialog class="case-dialog" id="d-minhavez">
+  <div class="d-head">
+    <h3>Minha Vez</h3>
+    <button class="d-close" aria-label="Fechar"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <p class="d-status">SaaS em produção</p>
+  <ul>
+    <li>Controle da ordem de atendimento entre vendedores de loja física</li>
+    <li>Multiusuário, em uso diário</li>
+  </ul>
+  <div class="d-foot">
+    <span class="mono" style="color: var(--muted)">SaaS / Em produção</span>
+    <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+  </div>
+</dialog>
+
+<dialog class="case-dialog" id="d-cnpj">
+  <div class="d-head">
+    <h3>Consulta CNPJ em lote</h3>
+    <button class="d-close" aria-label="Fechar"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button>
+  </div>
+  <p class="d-status">Ferramenta interna de cadastro</p>
+  <ul>
+    <li>Upload de planilha com a lista de CNPJs e consulta em lote</li>
+    <li>Alterna entre provedores (CNPJá, BrasilAPI) conforme o limite de uso</li>
+    <li>Devolve situação cadastral e inscrição estadual, com exportação</li>
+  </ul>
+  <div class="d-foot">
+    <span class="mono" style="color: var(--muted)">Next.js</span>
+    <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+  </div>
+</dialog>
+
 <script>
+  // Cards de case abrem o modal de detalhes (clique, Enter ou espaço)
+  document.querySelectorAll(".case[data-dialog]").forEach(function (card) {
+    var dlg = document.getElementById(card.dataset.dialog);
+    function open() { dlg.showModal(); }
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
+  });
+  document.querySelectorAll(".case-dialog").forEach(function (dlg) {
+    dlg.querySelector(".d-close").addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg) dlg.close();
+    });
+  });
+
   // Revelação: o que já está na viewport aparece na hora; o resto entra no scroll
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
