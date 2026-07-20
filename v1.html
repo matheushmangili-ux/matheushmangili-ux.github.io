@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matheus Mangili · Projetos</title>
+<meta name="description" content="Projetos de Matheus Mangili: BI de vendas, análise de crédito, reposição de estoque e operação de e-commerce para varejo.">
+<meta property="og:title" content="Matheus Mangili · Projetos">
+<meta property="og:description" content="BI de vendas, análise de crédito, reposição de estoque e operação de e-commerce para varejo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23047857'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='700' fill='%23fff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<script>
+  // Aplica o tema salvo antes do primeiro paint para evitar flash
+  (function () {
+    document.documentElement.classList.add("js");
+    var t = localStorage.getItem("theme");
+    if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("fonts/Geist-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("fonts/GeistMono-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --text: #18181b;
+    --muted: #52525b;
+    --faint: #8e8e96;
+    --border: #e4e4e7;
+    --accent: #047857;
+    --accent-hover: #065f46;
+    --accent-ink: #ffffff;
+    --tint: color-mix(in srgb, #047857 5%, #ffffff);
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c0c0d;
+      --surface: #131315;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --faint: #6f6f78;
+      --border: #26262a;
+      --accent: #34d399;
+      --accent-hover: #6ee7b7;
+      --accent-ink: #052e1c;
+      --tint: color-mix(in srgb, #34d399 7%, #131315);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c0c0d;
+    --surface: #131315;
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --faint: #6f6f78;
+    --border: #26262a;
+    --accent: #34d399;
+    --accent-hover: #6ee7b7;
+    --accent-ink: #052e1c;
+    --tint: color-mix(in srgb, #34d399 7%, #131315);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color .25s ease, color .25s ease;
+  }
+
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+
+  .mono {
+    font-family: "Geist Mono", ui-monospace, "Cascadia Code", monospace;
+    font-size: .78rem;
+    letter-spacing: .01em;
+  }
+
+  /* ---------- Navegação ---------- */
+  nav {
+    height: 68px;
+    display: flex;
+    align-items: center;
+  }
+  nav .wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { font-weight: 600; font-size: .95rem; letter-spacing: -.01em; }
+  .nav-right { display: flex; align-items: center; gap: .5rem; }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .45rem .8rem;
+    border-radius: var(--radius);
+    font-size: .875rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color .2s ease, background-color .2s ease;
+  }
+  .nav-link:hover { color: var(--text); background: var(--tint); }
+  .nav-link svg { width: 17px; height: 17px; }
+
+  #themeToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, transform .1s ease;
+  }
+  #themeToggle:hover { color: var(--text); border-color: var(--faint); }
+  #themeToggle:active { transform: scale(.95); }
+  #themeToggle svg { width: 17px; height: 17px; }
+  .icon-sun { display: none; }
+  :root[data-theme="dark"] .icon-sun { display: block; }
+  :root[data-theme="dark"] .icon-moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .icon-sun { display: block; }
+    :root:not([data-theme="light"]) .icon-moon { display: none; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: clamp(4rem, 10vw, 7.5rem) 0 clamp(4rem, 9vw, 6.5rem); }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.6vw, 3.9rem);
+    font-weight: 650;
+    letter-spacing: -.032em;
+    line-height: 1.06;
+    max-width: 15ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 550;
+    color: var(--accent);
+    line-height: 1.1;
+  }
+  .hero p {
+    margin-top: 1.4rem;
+    font-size: 1.075rem;
+    color: var(--muted);
+    max-width: 44ch;
+    text-wrap: pretty;
+  }
+  .hero .cta-row { margin-top: 2.4rem; display: flex; align-items: center; gap: 1rem; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 550;
+    font-size: .925rem;
+    padding: .72rem 1.35rem;
+    border-radius: var(--radius);
+    transition: background-color .2s ease, transform .1s ease;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:active { transform: scale(.98); }
+
+  /* ---------- Seções ---------- */
+  section { padding: clamp(3rem, 7vw, 5rem) 0; }
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    color: var(--faint);
+    margin-bottom: 2rem;
+  }
+
+  /* ---------- Projetos ---------- */
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .card {
+    grid-column: span 1;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.7rem 1.45rem;
+    transition: border-color .25s ease, transform .25s ease;
+  }
+  .card:hover { border-color: var(--faint); }
+  .card.featured {
+    grid-column: span 2;
+    background: var(--tint);
+    padding: 2.2rem 2.3rem 2rem;
+    gap: .8rem;
+  }
+  .card h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; }
+  .card.featured h3 { font-size: 1.55rem; letter-spacing: -.02em; }
+  .card p { color: var(--muted); font-size: .95rem; max-width: 62ch; text-wrap: pretty; }
+  .card .meta {
+    margin-top: auto;
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .meta .stack { color: var(--faint); }
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .84rem;
+    font-weight: 550;
+    color: var(--accent);
+    transition: gap .2s ease;
+  }
+  .repo-link:hover { gap: .55rem; }
+  .repo-link svg { width: 14px; height: 14px; }
+  .private {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .8rem;
+    color: var(--faint);
+  }
+  .private svg { width: 13px; height: 13px; }
+
+  /* ---------- Repos públicos ---------- */
+  .repos { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .repo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .65rem 1rem;
+    font-size: .875rem;
+    font-weight: 500;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .repo-pill:hover { border-color: var(--accent); background: var(--tint); }
+  .repo-pill .lang { color: var(--faint); }
+  .repo-pill svg { width: 13px; height: 13px; color: var(--faint); }
+
+  /* ---------- Rodapé ---------- */
+  footer {
+    margin-top: clamp(2rem, 5vw, 4rem);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0 3rem;
+  }
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  footer p { color: var(--faint); font-size: .875rem; }
+  footer a { color: var(--muted); font-weight: 500; transition: color .2s ease; }
+  footer a:hover { color: var(--accent); }
+
+  /* ---------- Revelação ao rolar (só esconde se o JS estiver ativo) ---------- */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1);
+    transition-delay: var(--d, 0ms);
+  }
+  html.js .reveal.vis { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal { opacity: 1; transform: none; transition: none; }
+    .btn, #themeToggle, .card { transition: none; }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 720px) {
+    .projects { grid-template-columns: 1fr; }
+    .card, .card.featured { grid-column: span 1; }
+    .card.featured { padding: 1.7rem 1.6rem 1.5rem; }
+    .card .meta { flex-direction: column; align-items: flex-start; gap: .6rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">Matheus Mangili</span>
+    <div class="nav-right">
+      <a class="nav-link" href="https://github.com/matheushmangili-ux" target="_blank" rel="noopener">
+        <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
+        GitHub
+      </a>
+      <button id="themeToggle" aria-label="Alternar tema claro e escuro">
+        <svg class="icon-moon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 class="reveal">Ferramentas que fazem o <em>varejo</em> girar.</h1>
+    <p class="reveal" style="--d:80ms">BI de vendas, análise de crédito, reposição de estoque e e-commerce, do banco de dados à interface.</p>
+    <div class="cta-row reveal" style="--d:160ms">
+      <a class="btn" href="#projetos">
+        Ver projetos
+        <svg viewBox="0 0 256 256" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="projetos">
+    <div class="wrap">
+      <h2>Projetos</h2>
+      <div class="projects">
+
+        <article class="card featured reveal">
+          <h3>Compra.ai</h3>
+          <p>BI e copiloto de compras para varejo de moda. Dashboards de vendas por canal, reposição por cobertura de estoque e a Vera, agente de IA que consulta giro, grade e estoque direto do ERP.</p>
+          <div class="meta">
+            <span class="mono stack">Next.js / Supabase / IA</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Lista da Vez</h3>
+          <p>Quadro drag-and-drop que transforma carrinhos abandonados e pagamentos cancelados da loja virtual em filas de atendimento para os vendedores.</p>
+          <div class="meta">
+            <span class="mono stack">React / Supabase / Tray</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal" style="--d:60ms">
+          <h3>Central de Crédito</h3>
+          <p>Central de análise de crédito para a mesa comercial: classes de cliente, limites calculados e travas automáticas seguindo a política oficial.</p>
+          <div class="meta">
+            <span class="mono stack">Next.js</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Minha Vez</h3>
+          <p>SaaS em produção para gestão da vez de atendimento em lojas físicas.</p>
+          <div class="meta">
+            <span class="mono stack">SaaS / Em produção</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal" style="--d:60ms">
+          <h3>Consulta CNPJ em lote</h3>
+          <p>Consulta listas de CNPJs a partir de planilhas, alternando entre provedores conforme o limite de uso, e devolve situação cadastral e inscrição estadual.</p>
+          <div class="meta">
+            <span class="mono stack">Next.js</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Hub interno</h3>
+          <p>Portal que reúne os aplicativos internos da operação em um só lugar, organizados por seção e com acesso autenticado.</p>
+          <div class="meta">
+            <span class="mono stack">Next.js</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+        <article class="card reveal" style="--d:60ms">
+          <h3>Agenda de Sala</h3>
+          <p>Agendamento de sala de reunião com reserva de horários à prova de conflito, garantida por chave primária no banco.</p>
+          <div class="meta">
+            <span class="mono stack">Next.js / PGlite</span>
+            <span class="private"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="repos">
+    <div class="wrap">
+      <h2>Repos públicos</h2>
+      <div class="repos reveal">
+        <a class="repo-pill" href="https://github.com/matheushmangili-ux/listaveztexas" target="_blank" rel="noopener">
+          listaveztexas <span class="mono lang">JavaScript</span>
+          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+        </a>
+        <a class="repo-pill" href="https://github.com/matheushmangili-ux/dashboard-datasystem" target="_blank" rel="noopener">
+          dashboard-datasystem <span class="mono lang">TypeScript</span>
+          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+        </a>
+        <a class="repo-pill" href="https://github.com/matheushmangili-ux/texas-center-dashboard" target="_blank" rel="noopener">
+          texas-center-dashboard <span class="mono lang">HTML</span>
+          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+        </a>
+        <a class="repo-pill" href="https://github.com/matheushmangili-ux/performancegaming" target="_blank" rel="noopener">
+          performancegaming <span class="mono lang">PowerShell</span>
+          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Stack do dia a dia: Next.js, React, Supabase, PostgreSQL e Node.</p>
+    <p><a href="mailto:matheushmangili@gmail.com">matheushmangili@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+  // Alterna tema claro/escuro e persiste a escolha
+  document.getElementById("themeToggle").addEventListener("click", function () {
+    var root = document.documentElement;
+    var current = root.dataset.theme ||
+      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    var next = current === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    localStorage.setItem("theme", next);
+  });
+
+  // Revelação suave: o que já está na viewport aparece na hora;
+  // o resto entra conforme o usuário rola (respeita prefers-reduced-motion via CSS)
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      setTimeout(function () { el.classList.add("vis"); }, 30);
+    } else {
+      io.observe(el);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matheus Mangili · Portfólio</title>
+<meta name="description" content="Projetos de Matheus Mangili: BI de vendas, análise de crédito, reposição de estoque e operação de e-commerce para varejo.">
+<meta property="og:title" content="Matheus Mangili · Portfólio">
+<meta property="og:description" content="BI de vendas, análise de crédito, reposição de estoque e operação de e-commerce para varejo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C9F73A'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='700' fill='%23101204' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<script>document.documentElement.classList.add("js");</script>
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("fonts/Geist-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("fonts/GeistMono-Variable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  /* Tema único (escuro, deliberado). Sistema de raio: painéis 24px, pílulas e botões full. */
+  :root {
+    --bg: #0e0e0f;
+    --panel: #161618;
+    --panel-2: #1b1b1e;
+    --text: #f2f2f0;
+    --muted: #9d9da4;
+    --line: #29292d;
+    --accent: #c9f73a;
+    --accent-ink: #131503;
+    --muted-on-accent: #3c4410;
+    --r-panel: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  /* Grão de filme: overlay fixo, sem custo de repaint no scroll */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: .05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 3rem); }
+
+  .mono {
+    font-family: "Geist Mono", ui-monospace, "Cascadia Code", monospace;
+    font-size: .78rem;
+    letter-spacing: .02em;
+  }
+
+  /* ---------- Navegação ---------- */
+  nav { height: 72px; display: flex; align-items: center; }
+  nav .wrap { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-weight: 650; font-size: .95rem; letter-spacing: -.01em; }
+  .gh-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: .5rem 1.1rem;
+    font-size: .875rem;
+    font-weight: 550;
+    transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .1s ease;
+  }
+  .gh-link:hover { border-color: var(--accent); color: var(--accent); }
+  .gh-link:active { transform: scale(.97); }
+  .gh-link svg { width: 16px; height: 16px; }
+
+  /* ---------- Hero manifesto ---------- */
+  .hero { padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(3.5rem, 8vw, 6rem); }
+  .hero h1 {
+    font-size: clamp(3.2rem, 10.5vw, 9.2rem);
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.04;
+    text-transform: uppercase;
+  }
+  .line-mask { display: block; overflow: hidden; }
+  .line { display: block; }
+  html.js .line {
+    transform: translateY(112%);
+    animation: rise .95s cubic-bezier(.16,1,.3,1) forwards;
+    animation-delay: calc(var(--i) * 110ms);
+  }
+  @keyframes rise { to { transform: none; } }
+  .hero .hollow {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--text);
+  }
+  .hero .lime { color: var(--accent); }
+  .hero-sub {
+    margin-top: 2.2rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .hero-sub p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 40ch;
+    text-wrap: pretty;
+  }
+  html.js .hero-sub p, html.js nav .wrap {
+    opacity: 0;
+    animation: fadeup .8s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  html.js .hero-sub p { animation-delay: .5s; }
+  html.js nav .wrap { animation-delay: .15s; }
+  @keyframes fadeup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- Marquee ---------- */
+  .marquee {
+    border-block: 1px solid var(--line);
+    overflow: hidden;
+    padding: 1.05rem 0;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: slide 30s linear infinite;
+  }
+  .marquee-track span {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: .85rem;
+    letter-spacing: .08em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .marquee-track span b { color: var(--accent); font-weight: 500; margin-right: 3rem; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- Cases (sticky-stack) ---------- */
+  .works { padding: clamp(4rem, 9vw, 7rem) 0 0; }
+  .works-head {
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+    font-weight: 750;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    max-width: 14ch;
+  }
+  .cases { display: flex; flex-direction: column; gap: 10vh; padding-bottom: 14vh; }
+  .case {
+    position: sticky;
+    top: calc(76px + var(--i, 0) * 10px);
+    min-height: 62vh;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem 2rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--r-panel);
+    padding: clamp(1.8rem, 4vw, 3.2rem);
+    box-shadow: 0 -18px 50px rgb(0 0 0 / .45);
+  }
+  .case:nth-child(even) { background: var(--panel-2); }
+  .case.lime {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .case h3 {
+    grid-column: 1 / 9;
+    font-size: clamp(2.2rem, 5.8vw, 4.8rem);
+    font-weight: 780;
+    letter-spacing: -.035em;
+    line-height: .98;
+    text-transform: uppercase;
+  }
+  .case .desc {
+    grid-column: 7 / 13;
+    grid-row: 3;
+    align-self: end;
+    color: var(--muted);
+    font-size: 1.02rem;
+    max-width: 46ch;
+    text-wrap: pretty;
+  }
+  .case.lime .desc { color: var(--muted-on-accent); }
+  .case:nth-child(even) h3 { grid-column: 5 / 13; text-align: right; }
+  .case:nth-child(even) .desc { grid-column: 1 / 7; }
+  .case .tags {
+    grid-column: 1 / 7;
+    grid-row: 3;
+    align-self: end;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+  }
+  .case:nth-child(even) .tags { grid-column: 7 / 13; grid-row: 3; justify-content: flex-end; }
+  .tag {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    letter-spacing: .02em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: .32rem .8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .case.lime .tag { border-color: rgb(19 21 3 / .35); color: var(--muted-on-accent); }
+  .tag.priv { display: inline-flex; align-items: center; gap: .4rem; }
+  .tag.priv svg { width: 12px; height: 12px; }
+
+  /* Painel final: dupla compacta */
+  .case .duo {
+    grid-column: 1 / 13;
+    grid-row: 2 / 4;
+    align-self: end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .duo > div { border-top: 1px solid var(--line); padding-top: 1.3rem; }
+  .duo h4 { font-size: 1.35rem; font-weight: 650; letter-spacing: -.02em; margin-bottom: .4rem; }
+  .duo p { color: var(--muted); font-size: .95rem; max-width: 40ch; }
+
+  /* ---------- Repos públicos: lista de tipo grande ---------- */
+  .repos-sec { padding: clamp(4rem, 9vw, 7rem) 0; }
+  .repos-head {
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+    font-weight: 750;
+    letter-spacing: -.03em;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .repo-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem .25rem;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left .25s cubic-bezier(.16,1,.3,1), color .2s ease;
+  }
+  .repo-row:first-of-type { border-top: 1px solid var(--line); }
+  .repo-row .name {
+    font-size: clamp(1.3rem, 3vw, 2.1rem);
+    font-weight: 650;
+    letter-spacing: -.02em;
+  }
+  .repo-row .right { display: inline-flex; align-items: center; gap: 1rem; color: var(--muted); }
+  .repo-row .right svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    transform: translate(-6px, 6px);
+    transition: opacity .25s ease, transform .25s cubic-bezier(.16,1,.3,1);
+  }
+  .repo-row:hover { padding-left: 1.25rem; color: var(--accent); }
+  .repo-row:hover .right svg { opacity: 1; transform: none; color: var(--accent); }
+
+  /* ---------- Rodapé ---------- */
+  footer { padding: clamp(4rem, 10vw, 8rem) 0 3rem; }
+  footer .big {
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    font-weight: 780;
+    letter-spacing: -.035em;
+    line-height: 1.02;
+    text-transform: uppercase;
+    max-width: 14ch;
+  }
+  .mail {
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+    font-weight: 550;
+    letter-spacing: -.01em;
+    color: var(--accent);
+    border-bottom: 2px solid transparent;
+    transition: border-color .2s ease;
+    overflow-wrap: anywhere;
+  }
+  .mail:hover { border-color: var(--accent); }
+  .foot-base {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: .85rem;
+  }
+
+  /* ---------- Revelação ao rolar ---------- */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+  }
+  html.js .reveal.vis { opacity: 1; transform: none; }
+
+  /* ---------- Movimento reduzido ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .line { animation: none; transform: none; }
+    html.js .hero-sub p, html.js nav .wrap { animation: none; opacity: 1; }
+    .marquee-track { animation: none; }
+    html.js .reveal { opacity: 1; transform: none; transition: none; }
+    .repo-row, .repo-row .right svg, .gh-link, .mail { transition: none; }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 760px) {
+    .hero h1 { font-size: clamp(2.6rem, 13.5vw, 3.6rem); }
+    .hero-sub { justify-content: flex-start; margin-top: 1.6rem; }
+    .cases { gap: 1rem; padding-bottom: 3rem; }
+    .case,
+    .case:nth-child(even) {
+      position: static;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: none;
+    }
+    .case h3, .case:nth-child(even) h3 { text-align: left; font-size: 2rem; }
+    .case .desc { max-width: none; }
+    .case .tags, .case:nth-child(even) .tags { justify-content: flex-start; margin-top: .3rem; }
+    .case .duo { display: flex; flex-direction: column; gap: 1.5rem; }
+    .repo-row { flex-direction: column; align-items: flex-start; gap: .3rem; padding: 1.2rem 0; }
+    .repo-row:hover { padding-left: 0; }
+    .foot-base { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">Matheus Mangili</span>
+    <a class="gh-link" href="https://github.com/matheushmangili-ux" target="_blank" rel="noopener">
+      <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>
+      <span class="line-mask"><span class="line" style="--i:0">Ferramentas</span></span>
+      <span class="line-mask"><span class="line hollow" style="--i:1">que fazem o</span></span>
+      <span class="line-mask"><span class="line" style="--i:2"><span class="lime">varejo</span> girar.</span></span>
+    </h1>
+    <div class="hero-sub">
+      <p>BI de vendas, análise de crédito, reposição de estoque e e-commerce, do banco de dados à interface. Matheus Mangili, desenvolvedor.</p>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span><b>/</b>BI DE VENDAS</span><span><b>/</b>ANÁLISE DE CRÉDITO</span><span><b>/</b>REPOSIÇÃO DE ESTOQUE</span><span><b>/</b>E-COMMERCE</span><span><b>/</b>AGENTES DE IA</span><span><b>/</b>DASHBOARDS</span>
+    <span><b>/</b>BI DE VENDAS</span><span><b>/</b>ANÁLISE DE CRÉDITO</span><span><b>/</b>REPOSIÇÃO DE ESTOQUE</span><span><b>/</b>E-COMMERCE</span><span><b>/</b>AGENTES DE IA</span><span><b>/</b>DASHBOARDS</span>
+  </div>
+</div>
+
+<main>
+  <section class="works" id="trabalhos">
+    <div class="wrap">
+      <h2 class="works-head">Trabalhos selecionados</h2>
+      <div class="cases">
+
+        <article class="case lime" style="--i:0">
+          <h3>Compra.ai</h3>
+          <div class="tags">
+            <span class="tag">Next.js</span><span class="tag">Supabase</span><span class="tag">IA</span>
+            <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+          <p class="desc">BI e copiloto de compras para varejo de moda. Dashboards de vendas por canal, reposição por cobertura de estoque e a Vera, agente de IA que consulta giro, grade e estoque direto do ERP.</p>
+        </article>
+
+        <article class="case" style="--i:1">
+          <h3>Lista da Vez</h3>
+          <div class="tags">
+            <span class="tag">React</span><span class="tag">Supabase</span><span class="tag">Tray</span>
+            <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+          <p class="desc">Quadro drag-and-drop que transforma carrinhos abandonados e pagamentos cancelados da loja virtual em filas de atendimento para os vendedores.</p>
+        </article>
+
+        <article class="case" style="--i:2">
+          <h3>Central de Crédito</h3>
+          <div class="tags">
+            <span class="tag">Next.js</span>
+            <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+          <p class="desc">Central de análise de crédito para a mesa comercial: classes de cliente, limites calculados e travas automáticas seguindo a política oficial.</p>
+        </article>
+
+        <article class="case" style="--i:3">
+          <h3>Minha Vez</h3>
+          <div class="tags">
+            <span class="tag">SaaS</span><span class="tag">Em produção</span>
+            <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+          <p class="desc">SaaS em produção para gestão da vez de atendimento em lojas físicas.</p>
+        </article>
+
+        <article class="case" style="--i:4">
+          <h3>Consulta CNPJ em lote</h3>
+          <div class="tags">
+            <span class="tag">Next.js</span>
+            <span class="tag priv"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg>Repo privado</span>
+          </div>
+          <p class="desc">Consulta listas de CNPJs a partir de planilhas, alternando entre provedores conforme o limite de uso, e devolve situação cadastral e inscrição estadual.</p>
+        </article>
+
+        <article class="case" style="--i:5">
+          <h3>E também</h3>
+          <div class="duo">
+            <div>
+              <h4>Hub interno</h4>
+              <p>Portal que reúne os aplicativos internos da operação em um só lugar, com acesso autenticado.</p>
+            </div>
+            <div>
+              <h4>Agenda de Sala</h4>
+              <p>Agendamento de sala de reunião com reserva de horários à prova de conflito, garantida pelo banco.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="repos-sec" id="repos">
+    <div class="wrap">
+      <h2 class="repos-head reveal">Repos públicos</h2>
+      <div class="reveal">
+        <a class="repo-row" href="https://github.com/matheushmangili-ux/listaveztexas" target="_blank" rel="noopener">
+          <span class="name">listaveztexas</span>
+          <span class="right"><span class="mono">JavaScript</span>
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </span>
+        </a>
+        <a class="repo-row" href="https://github.com/matheushmangili-ux/dashboard-datasystem" target="_blank" rel="noopener">
+          <span class="name">dashboard-datasystem</span>
+          <span class="right"><span class="mono">TypeScript</span>
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </span>
+        </a>
+        <a class="repo-row" href="https://github.com/matheushmangili-ux/texas-center-dashboard" target="_blank" rel="noopener">
+          <span class="name">texas-center-dashboard</span>
+          <span class="right"><span class="mono">HTML</span>
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </span>
+        </a>
+        <a class="repo-row" href="https://github.com/matheushmangili-ux/performancegaming" target="_blank" rel="noopener">
+          <span class="name">performancegaming</span>
+          <span class="right"><span class="mono">PowerShell</span>
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big reveal">Tem varejo? A gente resolve com software.</p>
+    <a class="mail reveal" href="mailto:matheushmangili@gmail.com">matheushmangili@gmail.com</a>
+    <div class="foot-base">
+      <span>© 2026 Matheus Mangili</span>
+      <span>Stack do dia a dia: Next.js, React, Supabase, PostgreSQL e Node.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Revelação: o que já está na viewport aparece na hora; o resto entra no scroll
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(function (el) {
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      setTimeout(function () { el.classList.add("vis"); }, 30);
+    } else {
+      io.observe(el);
+    }
+  });
+</script>
+
+</body>
+</html>
