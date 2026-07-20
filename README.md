@@ -4,7 +4,7 @@ Landing page estática (sem build, sem dependências), publicada em
 **https://matheushmangili-ux.github.io** via GitHub Pages.
 
 - **`index.html`**: versão publicada (estilo agência): tipografia gigante, hero manifesto animado,
-  marquee, cases que empilham no scroll, tema escuro com acento verde-lima e grão de filme
+  marquee, grade estática de cards com ícones de monograma, tema escuro com verde-lima e grão de filme
 - **`v1.html`**: versão alternativa minimalista (editorial, tema claro/escuro com toggle)
 
 Ambas compartilham:
@@ -28,7 +28,6 @@ O GitHub Pages republica sozinho em 1 a 2 minutos.
 
 Tudo está em `index.html`. Cada projeto é um bloco `<article class="card">`:
 
-- Para adicionar: duplique um bloco e troque título, descrição e stack.
-- Para destacar: use `class="card featured"` (ocupa a largura toda, com fundo tingido).
-- Para linkar um repo público: troque o `<span class="private">…</span>` por
-  um link `<a class="repo-link" href="URL">Ver repo</a>` (há exemplos na seção "Repos públicos").
+- Para adicionar: duplique um bloco e troque título, descrição, monograma (`.app-icon`) e tags.
+- Para destacar: use `class="card lime"` (ocupa a largura toda, com fundo verde-lima).
+- Os cards são estáticos por decisão de design; os links ficam na seção "Repos públicos".
